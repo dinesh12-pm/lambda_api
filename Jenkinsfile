@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        GIT_CREDENTIALS = credentials('dinesh12-pm')
-        AWS_ACCESS_KEY_ID = credentials('LGaKn5jnbnUkKJl1WeyIyl0JguKseVMG4mTV6Xg9')
-        AWS_SECRET_ACCESS_KEY = credentials('LGaKn5jnbnUkKJl1WeyIyl0JguKseVMG4mTV6Xg9')
+        GIT_CREDENTIALS = credentials('your-git-creds-id')
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
         STAGE = "dev"
     }
 
