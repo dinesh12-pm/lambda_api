@@ -1,0 +1,11 @@
+{
+  "name": "lambda-api",
+  "version": "1.0.0",
+  "description": "Demo AWS Lambda API",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "serverless deploy --stage dev",
+    "remove": "serverless remove --stage dev"
+  },
+  "dependencies": {}
+}
