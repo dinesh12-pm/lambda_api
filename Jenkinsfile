@@ -2,9 +2,6 @@ pipeline {
     agent any
 
     environment {
-        GIT_CREDENTIALS = credentials('your-git-creds-id')
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
         STAGE = "dev"
     }
 
@@ -12,14 +9,11 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 cleanWs()
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://your-git-repo-url.com/lambda-api.git',
-                        credentialsId: "${GIT_CREDENTIALS}"
-                    ]]
-                ])
+                git(
+                    url: 'https://github.com/dinesh12-pm/lambda_api.git',
+                    credentialsId: 'your-git-creds-id',
+                    branch: 'main'
+                )
             }
         }
 
@@ -31,7 +25,12 @@ pipeline {
 
         stage('Deploy to AWS Lambda') {
             steps {
-                sh 'npx serverless deploy --stage ${STAGE} --verbose'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'npx serverless deploy --stage $STAGE --verbose'
+                }
             }
         }
     }
