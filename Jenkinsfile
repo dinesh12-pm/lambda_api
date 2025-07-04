@@ -20,6 +20,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
+                sh 'npm install -g serverless@3'  // ✅ Downgrade to Serverless v3 (no login needed)
             }
         }
 
@@ -29,7 +30,7 @@ pipeline {
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    sh 'npx serverless deploy --stage $STAGE --verbose'
+                    sh 'serverless deploy --stage $STAGE --verbose'  // ✅ Use globally installed v3
                 }
             }
         }
